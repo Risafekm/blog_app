@@ -18,17 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CheckAuthStatus>(_onCheckAuthStatus);
   }
 
-  // Future<void> _onRegisterUser(
-  //     RegisterUser event, Emitter<AuthState> emit) async {
-  //   emit(AuthLoading());
-  //   try {
-  //     await hiveDatabase.addUser(event.user);
-  //     emit(AuthSuccess(event.user));
-  //   } catch (e) {
-  //     emit(AuthFailure("Registration failed"));
-  //   }
-  // }
-
   Future<void> _onRegisterUser(
       RegisterUser event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
