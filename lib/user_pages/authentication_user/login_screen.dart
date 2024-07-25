@@ -1,17 +1,34 @@
-// ignore_for_file: use_key_in_widget_constructors
-
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:blog_app/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/user_pages/authentication_user/register_screen.dart';
 import 'package:blog_app/user_pages/authentication_user/widgets/button_login.dart';
 import 'package:blog_app/user_pages/authentication_user/widgets/custom_textfield_widget.dart';
 import 'package:blog_app/user_pages/home_screen/home_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginUserScreen extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter an email';
+    }
+    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a password';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +36,7 @@ class LoginUserScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("welcome: ${state.user.username}")));
+              SnackBar(content: Text("Welcome: ${state.user.username}")));
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const HomeScreen()));
         } else if (state is AuthFailure) {
@@ -34,45 +51,50 @@ class LoginUserScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 60),
-                  signInText(),
-                  const SizedBox(height: 5),
-                  subText(),
-                  const SizedBox(height: 200),
-                  CustomTextFieldWidget(
-                    text: 'Email',
-                    icon: Icons.email,
-                    controller: emailController,
-                  ),
-                  const SizedBox(height: 30),
-                  CustomTextFieldWidget(
-                    text: 'Password',
-                    icon: Icons.password,
-                    controller: passwordController,
-                  ),
-                  const SizedBox(height: 60),
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      return ButtonLogin(
-                        text: 'Login',
-                        onPressed: () {
-                          BlocProvider.of<AuthBloc>(context).add(
-                            LoginUser(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  dontHaveAccountText(context),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 60),
+                    signInText(),
+                    const SizedBox(height: 5),
+                    subText(),
+                    const SizedBox(height: 200),
+                    CustomTextFieldWidget(
+                      text: 'Email',
+                      icon: Icons.email,
+                      controller: emailController,
+                      validator: _validateEmail,
+                    ),
+                    const SizedBox(height: 30),
+                    CustomTextFieldWidget(
+                      text: 'Password',
+                      icon: Icons.password,
+                      controller: passwordController,
+                      validator: _validatePassword,
+                    ),
+                    const SizedBox(height: 60),
+                    BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        return ButtonLogin(
+                          text: 'Login',
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              BlocProvider.of<AuthBloc>(context).add(LoginUser(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              ));
+                            }
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    dontHaveAccountText(context),
+                  ],
+                ),
               ),
             ),
           ),
@@ -89,7 +111,7 @@ class LoginUserScreen extends StatelessWidget {
         child: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
-              text: "Don't have an account ? ",
+              text: 'Don\'t have an account ? ',
               style: GoogleFonts.roboto(
                 fontSize: 13,
                 color: Colors.black87,
@@ -111,9 +133,9 @@ class LoginUserScreen extends StatelessWidget {
   Center subText() {
     return const Center(
       child: Text(
-        'Enter your credential to login',
+        'Welcome Back',
         style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black87),
+            fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54),
       ),
     );
   }
@@ -121,9 +143,11 @@ class LoginUserScreen extends StatelessWidget {
   Center signInText() {
     return Center(
       child: Text(
-        'Welcome Back',
+        'SignIn',
         style: GoogleFonts.roboto(
-            fontSize: 36, fontWeight: FontWeight.w600, color: Colors.black),
+          fontSize: 36,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
