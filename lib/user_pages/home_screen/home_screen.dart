@@ -1,38 +1,116 @@
+import 'package:blog_app/core/const.dart';
 import 'package:blog_app/hive_database/hive_database.dart';
+import 'package:blog_app/models/usermodel/user_model.dart';
 import 'package:blog_app/user_pages/authentication_user/bloc/auth_bloc.dart';
-import 'package:blog_app/user_pages/authentication_user/login_screen.dart';
+import 'package:blog_app/user_pages/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final UserModel user;
+
+  const HomeScreen({required this.user, super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthBloc(hiveDatabase: HiveDatabase()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('HomeScreen'),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () {
-                BlocProvider.of<AuthBloc>(context).add(LogoutUser());
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginUserScreen()),
-                );
-              },
-              icon: const Icon(Icons.logout),
+          appBar: AppBar(
+            backgroundColor: appbarbackground,
+            title: Text(
+              'Home',
+              style: GoogleFonts.cabin(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+                color: appbaritemcolor,
+              ),
             ),
-          ],
-        ),
-        body: const Center(
-          child: Text('Welcome to HomeScreen!'),
-        ),
-      ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.history,
+                  color: appbaritemcolor,
+                ),
+              ),
+              const SizedBox(width: 20),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileScreen(user: user)),
+                  );
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: appbaritemcolor,
+                ),
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+
+                  //searchbar
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search...',
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12),
+                    child: Text(
+                      'Blogs',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // listview blog
+                  Container(
+                    constraints: const BoxConstraints(
+                        maxHeight: double.maxFinite,
+                        maxWidth: double.maxFinite),
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 150,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )),
     );
   }
 }

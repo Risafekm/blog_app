@@ -18,7 +18,10 @@ class SplashScreen extends StatelessWidget {
           if (state is AuthSuccess) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(
+                  builder: (context) => HomeScreen(
+                        user: state.user,
+                      )),
             );
           } else if (state is AuthInitial) {
             Navigator.pushReplacement(
