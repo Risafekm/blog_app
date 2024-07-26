@@ -1,12 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:blog_app/core/const.dart';
+import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_database.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
+import 'package:blog_app/presentation/user_pages/history_screen/history_screen.dart';
+import 'package:blog_app/presentation/user_pages/post_screen/post_screen.dart';
 import 'package:blog_app/presentation/user_pages/profile_screen/profile_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 
 class HomeScreen extends StatelessWidget {
   final UserModel user;
@@ -33,7 +38,16 @@ class HomeScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                if (!Hive.isBoxOpen('posts')) {
+                  await Hive.openBox<PostModel>('posts');
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HistoryScreen(user: user)),
+                );
+              },
               icon: Icon(
                 Icons.history,
                 color: appbaritemcolor,
@@ -113,7 +127,10 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const PostScreen()));
+          },
           child: const Icon(
             Icons.add,
           ),

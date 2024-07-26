@@ -1,13 +1,13 @@
-// ignore_for_file: must_be_immutable
+// post_event.dart
 
 part of 'post_bloc.dart';
 
 @immutable
 sealed class PostEvent {}
 
-//add post
+// Add post event
 class PostAdding extends PostEvent {
-  late PostModel post;
+  final PostModel post;
 
   PostAdding(this.post);
 }

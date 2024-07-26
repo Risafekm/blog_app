@@ -4,6 +4,7 @@ import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_database.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
+import 'package:blog_app/presentation/user_pages/home_screen/bloc/post_bloc.dart';
 import 'package:blog_app/presentation/user_pages/splash_screen/splash_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ void main() async {
     await Hive.initFlutter();
     Hive.registerAdapter(UserModelAdapter());
     Hive.registerAdapter(PostModelAdapter());
+    await Hive.openBox<PostModel>('posts');
 
     runApp(const MyApp());
   } catch (e) {
@@ -32,6 +34,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(hiveDatabase: HiveDatabase()),
+        ),
+        BlocProvider(
+          create: (context) => PostBloc(),
         )
       ],
       child: MaterialApp(

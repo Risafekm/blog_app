@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:blog_app/core/const.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/login_screen.dart';
@@ -22,7 +23,9 @@ class RegistrationUserScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Registration Success: ${state.user.username}")));
+            content: Text("Registration Success: ${state.user.username}"),
+            backgroundColor: successcolor,
+          ));
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -30,8 +33,10 @@ class RegistrationUserScreen extends StatelessWidget {
                         user: state.user,
                       )));
         } else if (state is AuthFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Failure: ${state.error}")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Failure: ${state.error}"),
+            backgroundColor: errorcolor,
+          ));
         }
       },
       child: SafeArea(
@@ -93,9 +98,10 @@ class RegistrationUserScreen extends StatelessWidget {
                             BlocProvider.of<AuthBloc>(context)
                                 .add(RegisterUser(user));
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Passwords do not match")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: const Text("Passwords do not match"),
+                              backgroundColor: errorcolor,
+                            ));
                           }
                         },
                       );

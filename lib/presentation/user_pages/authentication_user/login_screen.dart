@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:blog_app/core/const.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/register_screen.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/widgets/button_login.dart';
@@ -37,8 +38,10 @@ class LoginUserScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Welcome: ${state.user.username}")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Welcome: ${state.user.username}"),
+            backgroundColor: successcolor,
+          ));
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -46,8 +49,10 @@ class LoginUserScreen extends StatelessWidget {
             ),
           );
         } else if (state is AuthFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Failure: ${state.error}")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Failure: ${state.error}"),
+            backgroundColor: errorcolor,
+          ));
         }
       },
       child: SafeArea(
