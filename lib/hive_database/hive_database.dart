@@ -1,4 +1,4 @@
-import 'package:blog_app/models/usermodel/user_model.dart';
+import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:hive/hive.dart';
 
 class HiveDatabase {

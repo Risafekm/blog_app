@@ -1,11 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors
 
-import 'package:blog_app/models/usermodel/user_model.dart';
-import 'package:blog_app/user_pages/authentication_user/bloc/auth_bloc.dart';
-import 'package:blog_app/user_pages/authentication_user/login_screen.dart';
-import 'package:blog_app/user_pages/authentication_user/widgets/button_login.dart';
-import 'package:blog_app/user_pages/authentication_user/widgets/custom_textfield_widget.dart';
-import 'package:blog_app/user_pages/home_screen/home_screen.dart';
+import 'package:blog_app/core/models/usermodel/user_model.dart';
+import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
+import 'package:blog_app/presentation/user_pages/authentication_user/login_screen.dart';
+import 'package:blog_app/presentation/user_pages/authentication_user/widgets/button_login.dart';
+import 'package:blog_app/presentation/user_pages/authentication_user/widgets/custom_textfield_widget.dart';
+import 'package:blog_app/presentation/user_pages/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
