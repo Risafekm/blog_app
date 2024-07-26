@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/register_screen.dart';
@@ -14,6 +12,8 @@ class LoginUserScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  LoginUserScreen({super.key});
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -49,10 +49,8 @@ class LoginUserScreen extends StatelessWidget {
             ),
           );
         } else if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Failure: ${state.error}"),
-            backgroundColor: errorcolor,
-          ));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Failure: ${state.error}")));
         }
       },
       child: SafeArea(
@@ -72,7 +70,7 @@ class LoginUserScreen extends StatelessWidget {
                     signInText(),
                     const SizedBox(height: 5),
                     subText(),
-                    const SizedBox(height: 200),
+                    const SizedBox(height: 100),
                     CustomTextFieldWidget(
                       text: 'Email',
                       icon: Icons.email,

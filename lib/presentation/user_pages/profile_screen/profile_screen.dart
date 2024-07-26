@@ -1,7 +1,7 @@
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
+import 'package:blog_app/presentation/login.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
-import 'package:blog_app/presentation/user_pages/authentication_user/login_screen.dart';
 import 'package:blog_app/presentation/user_pages/profile_screen/widgets/buttonlogout.dart';
 
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
                   BlocProvider.of<AuthBloc>(context).add(LogoutUser());
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginUserScreen()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
               )

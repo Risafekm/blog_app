@@ -48,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
       if (user != null) {
-        await hiveDatabase.setCurrentUser(user.id); // Set current user
+        await hiveDatabase.setCurrentUser(user.id); // current user
         emit(AuthSuccess(user));
       } else {
         emit(AuthFailure("Login failed"));
@@ -74,10 +74,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await hiveDatabase.getCurrentUser();
       if (user != null) {
-        print("User found: ${user.username}"); // Debug log
+        print("User found: ${user.username}");
         emit(AuthSuccess(user));
       } else {
-        print("No user found"); // Debug log
+        print("No user found");
         emit(AuthInitial());
       }
     } catch (e) {

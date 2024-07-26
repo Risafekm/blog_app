@@ -1,11 +1,12 @@
-// ignore_for_file: avoid_print, unused_local_variable
-
+import 'package:blog_app/adminloginstatus.dart';
 import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
+import 'package:blog_app/hive_database/hive_admin.dart';
 import 'package:blog_app/hive_database/hive_database.dart';
+import 'package:blog_app/presentation/admin_pages/admin_auth/bloc/admin_bloc.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/presentation/user_pages/home_screen/bloc/post_bloc.dart';
-import 'package:blog_app/presentation/user_pages/splash_screen/splash_screen.dart';
+import 'package:blog_app/userloginstatus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,7 @@ void main() async {
     Hive.registerAdapter(UserModelAdapter());
     Hive.registerAdapter(PostModelAdapter());
     await Hive.openBox<PostModel>('posts');
-
+    await AdminAuthBox.init(); // Initialize the AdminAuthBox
     runApp(const MyApp());
   } catch (e) {
     print('Error initializing Hive: $e');
@@ -37,12 +38,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PostBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AdminBloc(hiveDatabase: AdminAuthBox()),
         )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
-        // home: ProfileScreen(),
+        // home: UserLoginStatus(),
+        home: AdminLoginStatus(),
       ),
     );
   }

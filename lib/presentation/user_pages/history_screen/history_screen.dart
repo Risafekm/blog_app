@@ -111,14 +111,22 @@ class HistoryScreen extends StatelessWidget {
                                       const SizedBox(height: 10),
                                       Text(
                                         post.content,
-                                        maxLines: 4,
+                                        maxLines: 3,
                                         style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
                                           overflow: TextOverflow.fade,
                                         ),
                                       ),
                                     ],
+                                  ),
+                                ),
+                                Text(
+                                  "approval : ${post.isPublished}",
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.fade,
                                   ),
                                 ),
                               ],

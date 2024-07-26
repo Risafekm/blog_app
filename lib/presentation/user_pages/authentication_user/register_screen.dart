@@ -43,8 +43,8 @@ class RegistrationUserScreen extends StatelessWidget {
         child: Scaffold(
           body: SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: double.maxFinite,
+              width: double.maxFinite,
               decoration: const BoxDecoration(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
