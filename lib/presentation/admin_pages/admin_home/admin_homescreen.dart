@@ -1,10 +1,11 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers
 
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/hive_database/hive_admin.dart';
 import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/presentation/admin_pages/admin_auth/bloc/admin_bloc.dart';
 import 'package:blog_app/presentation/admin_pages/admin_profile/admin_profile.dart';
+import 'package:blog_app/presentation/user_pages/authentication_user/widgets/button_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -98,6 +99,7 @@ class AdminHomeScreen extends StatelessWidget {
                       itemCount: box.values.length,
                       itemBuilder: (context, index) {
                         final post = box.getAt(index) as PostModel;
+
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -128,8 +130,6 @@ class AdminHomeScreen extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           post.title,
@@ -140,7 +140,18 @@ class AdminHomeScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
-                                          post.content,
+                                          "User Q : ${post.content}",
+                                          maxLines: 3,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.purple,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          post.response,
                                           maxLines: 3,
                                           style: const TextStyle(
                                             fontSize: 15,
@@ -156,11 +167,17 @@ class AdminHomeScreen extends StatelessWidget {
                                     value: post.isPublished,
                                     onChanged: (bool? newValue) {
                                       if (newValue != null) {
-                                        // Update the Hive database with new approval status
                                         post.isPublished = newValue;
                                         post.save();
                                         print("${post.isPublished}");
                                       }
+                                    },
+                                  ),
+                                  // Response button
+                                  IconButton(
+                                    icon: const Icon(Icons.reply),
+                                    onPressed: () {
+                                      _showResponseBottomSheet(context, post);
                                     },
                                   ),
                                 ],
@@ -177,6 +194,50 @@ class AdminHomeScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showResponseBottomSheet(BuildContext context, PostModel post) {
+    final TextEditingController _responseController = TextEditingController();
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Respond to Post',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _responseController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your response...',
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              ButtonLogin(
+                  text: "Reply Send",
+                  onPressed: () {
+                    final response = _responseController.text;
+                    if (response.isNotEmpty) {
+                      post.response = response;
+                      post.save();
+                      Navigator.pop(context);
+                      print("Response saved: $response");
+                    }
+                  })
+            ],
+          ),
+        );
+      },
     );
   }
 }
