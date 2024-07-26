@@ -27,12 +27,22 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<CheckAuthStatus>((event, emit) async {
       emit(AdminLoginInProgress());
       try {
-        final isAuthenticated = AdminAuthBox.getAuthStatus();
+        final isAuthenticated = await AdminAuthBox.getAuthStatus();
         if (isAuthenticated) {
           emit(AdminLoginSuccess());
         } else {
           emit(AdminInitial());
         }
+      } catch (e) {
+        emit(AdminLoginFailure(error: e.toString()));
+      }
+    });
+
+    on<AdminLogoutRequested>((event, emit) async {
+      emit(AdminLoginInProgress());
+      try {
+        await AdminAuthBox.saveAuthStatus(false, isAdmin: false);
+        emit(AdminInitial());
       } catch (e) {
         emit(AdminLoginFailure(error: e.toString()));
       }

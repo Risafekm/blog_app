@@ -1,11 +1,14 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: avoid_print
 
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/hive_database/hive_admin.dart';
+import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/presentation/admin_pages/admin_auth/bloc/admin_bloc.dart';
+import 'package:blog_app/presentation/admin_pages/admin_profile/admin_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
@@ -28,62 +31,149 @@ class AdminHomeScreen extends StatelessWidget {
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AdminProfileScreen(
+                            adminName: 'Angel',
+                            adminEmail: 'admin123@gmail.com',
+                          )),
+                );
+              },
+              icon: Icon(
+                Icons.person,
+                color: appbaritemcolor,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
-          child: SizedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
 
-                //searchbar
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10.0, right: 8.0, top: 5, bottom: 5),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search...',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+              //searchbar
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 10.0, right: 8.0, top: 5, bottom: 5),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: Text(
-                    'Blogs',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-                  ),
+              ),
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Text(
+                  'Blogs',
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 20),
-                // listview blog
-                Container(
-                  constraints: const BoxConstraints(
-                      maxHeight: double.maxFinite, maxWidth: double.maxFinite),
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 150,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: Colors.blue.shade200,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+              ),
+              const SizedBox(height: 20),
+              // listview blog
+              Container(
+                constraints: const BoxConstraints(
+                    maxHeight: double.maxFinite, maxWidth: double.maxFinite),
+                child: ValueListenableBuilder(
+                  valueListenable: Hive.box<PostModel>('posts').listenable(),
+                  builder: (context, Box<PostModel> box, _) {
+                    if (box.values.isEmpty) {
+                      return const Center(
+                        child: Text('No posts available'),
                       );
-                    },
-                  ),
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: box.values.length,
+                      itemBuilder: (context, index) {
+                        final post = box.getAt(index) as PostModel;
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 150,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 30,
+                                    child: Text(
+                                      post.id,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 30),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          post.title,
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          post.content,
+                                          maxLines: 3,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Checkbox for approval
+                                  Checkbox(
+                                    value: post.isPublished,
+                                    onChanged: (bool? newValue) {
+                                      if (newValue != null) {
+                                        // Update the Hive database with new approval status
+                                        post.isPublished = newValue;
+                                        post.save();
+                                        print("${post.isPublished}");
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
