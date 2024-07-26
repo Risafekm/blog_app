@@ -14,6 +14,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   void _onPostAdding(PostAdding event, Emitter<PostState> emit) async {
     try {
       var box = await Hive.openBox<PostModel>('posts');
+      // Auto-increment ID
+      int newId = box.length + 1;
+      event.post.id = newId.toString();
       await box.add(event.post);
       emit(PostSuccess());
     } catch (e) {

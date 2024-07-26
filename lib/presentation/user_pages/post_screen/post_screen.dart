@@ -12,7 +12,6 @@ class PostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController idController = TextEditingController();
     TextEditingController titleController = TextEditingController();
     TextEditingController contentController = TextEditingController();
     TextEditingController authorIdController = TextEditingController();
@@ -62,12 +61,6 @@ class PostScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 60),
                 CustomTextFieldWidget(
-                  text: 'Id',
-                  icon: Icons.format_list_numbered,
-                  controller: idController,
-                ),
-                const SizedBox(height: 20),
-                CustomTextFieldWidget(
                   text: 'Title',
                   icon: Icons.title,
                   controller: titleController,
@@ -88,7 +81,7 @@ class PostScreen extends StatelessWidget {
                 ButtonLogin(
                   onPressed: () {
                     PostModel newPost = PostModel(
-                      id: idController.text,
+                      id: '',
                       title: titleController.text,
                       content: contentController.text,
                       authorId: authorIdController.text,
