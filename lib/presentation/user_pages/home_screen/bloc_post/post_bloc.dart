@@ -32,6 +32,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
               post.isPublished &&
               post.title.toLowerCase().contains(event.query.toLowerCase()))
           .toList();
+      print('Search Results Length: ${posts.length}'); // Debug statement
+      print('Search Results: $posts'); // Debug statement
       emit(PostSearchResults(posts));
     } catch (e) {
       emit(PostFailure(e.toString()));

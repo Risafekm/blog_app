@@ -20,6 +20,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Print Hive data when HomeScreen is initialized
+    _printHiveData();
+
     return BlocProvider(
       create: (context) => PostBloc()..add(PostSearch('')),
       child: Scaffold(
@@ -39,6 +42,7 @@ class HomeScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () async {
+                _printHiveData();
                 if (!Hive.isBoxOpen('posts')) {
                   await Hive.openBox<PostModel>('posts');
                 }
@@ -78,6 +82,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 onChanged: (query) {
+                  print("Search Query: $query"); // Debug statement
                   context.read<PostBloc>().add(PostSearch(query));
                 },
                 decoration: InputDecoration(
@@ -96,6 +101,9 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: BlocBuilder<PostBloc, PostState>(
                 builder: (context, state) {
+                  // Debug print to confirm BlocBuilder rebuild
+                  print("Current State: ${state.runtimeType}");
+
                   if (state is PostInitial) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is PostSearchResults) {
@@ -200,5 +208,13 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _printHiveData() async {
+    final box = await Hive.openBox<PostModel>('posts');
+    final posts = box.values.toList();
+    for (var post in posts) {
+      print('Post ID: ${post.id}, Title: ${post.title}');
+    }
   }
 }

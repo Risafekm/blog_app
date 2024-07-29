@@ -14,7 +14,6 @@ class PostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
     TextEditingController contentController = TextEditingController();
-    TextEditingController authorIdController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -72,11 +71,6 @@ class PostScreen extends StatelessWidget {
                   controller: contentController,
                 ),
                 const SizedBox(height: 20),
-                CustomTextFieldWidget(
-                  text: 'AuthorId',
-                  icon: Icons.format_list_numbered,
-                  controller: authorIdController,
-                ),
                 const SizedBox(height: 70),
                 ButtonLogin(
                   onPressed: () {
@@ -84,7 +78,7 @@ class PostScreen extends StatelessWidget {
                       id: '',
                       title: titleController.text,
                       content: contentController.text,
-                      authorId: authorIdController.text,
+                      authorId: '',
                       isPublished: false, // or set it as needed
                       response: '', // or set it as needed
                     );

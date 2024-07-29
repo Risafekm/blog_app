@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_admin.dart';
@@ -60,7 +62,7 @@ class UserLoginStatus extends StatelessWidget {
       future: _checkLoginStatus(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
@@ -75,7 +77,7 @@ class UserLoginStatus extends StatelessWidget {
             return BlocProvider(
               create: (context) => AdminBloc(hiveDatabase: AdminAuthBox())
                 ..add(CheckAdminAuthStatus()),
-              child: AdminHomeScreen(),
+              child: const AdminHomeScreen(),
             );
           } else {
             return LoginScreen();
