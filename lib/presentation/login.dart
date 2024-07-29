@@ -11,6 +11,7 @@ class LoginScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           bottom: const TabBar(
             labelColor: Colors.blue,
             indicatorSize: TabBarIndicatorSize.tab,

@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 class HiveDatabase {
   static const String userBoxName = 'userBox';
   static const String currentUserKey = 'currentUserId';
+  static const String userLoginBoxName = 'userLoginBox';
+  static const String isUserLoggedInKey = 'isUserLoggedIn';
 
   Future<void> addUser(UserModel user) async {
     var box = await Hive.openBox<UserModel>(userBoxName);
@@ -51,5 +53,17 @@ class HiveDatabase {
   Future<void> logoutUser() async {
     var box = await Hive.openBox<String>('appPreferences');
     await box.delete(currentUserKey);
+  }
+
+  // Set user login status
+  Future<void> setUserLoginStatus(bool isLoggedIn) async {
+    var box = await Hive.openBox(userLoginBoxName);
+    await box.put(isUserLoggedInKey, isLoggedIn);
+  }
+
+  // Get user login status
+  Future<bool> getUserLoginStatus() async {
+    var box = await Hive.openBox(userLoginBoxName);
+    return box.get(isUserLoggedInKey, defaultValue: false);
   }
 }

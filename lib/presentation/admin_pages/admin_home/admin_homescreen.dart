@@ -58,22 +58,22 @@ class AdminHomeScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
 
-              //searchbar
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 10.0, right: 8.0, top: 5, bottom: 5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search...',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
+              // //searchbar
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //       left: 10.0, right: 8.0, top: 5, bottom: 5),
+              //   child: TextField(
+              //     decoration: InputDecoration(
+              //       hintText: 'Search...',
+              //       prefixIcon: const Icon(Icons.search),
+              //       border: OutlineInputBorder(
+              //         borderSide: const BorderSide(color: Colors.black),
+              //         borderRadius: BorderRadius.circular(15),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
               const Padding(
                 padding: EdgeInsets.only(left: 12),
                 child: Text(

@@ -4,6 +4,8 @@ class AdminAuthBox {
   static const _authBoxName = 'auth_box';
   static const _authStatusKey = 'auth_status';
   static const _adminStatusKey = 'admin_status';
+  static const adminLoginBoxName = 'adminLoginBox';
+  static const isAdminLoggedInKey = 'isAdminLoggedIn';
 
   static Future<void> init() async {
     await Hive.openBox(_authBoxName);
@@ -14,6 +16,9 @@ class AdminAuthBox {
     final box = await Hive.openBox(_authBoxName);
     await box.put(_authStatusKey, isAuthenticated);
     await box.put(_adminStatusKey, isAdmin);
+
+    final adminLoginBox = await Hive.openBox(adminLoginBoxName);
+    await adminLoginBox.put(isAdminLoggedInKey, isAdmin);
   }
 
   static Future<bool> getAuthStatus() async {
@@ -30,5 +35,8 @@ class AdminAuthBox {
     final box = await Hive.openBox(_authBoxName);
     await box.put(_authStatusKey, false);
     await box.put(_adminStatusKey, false);
+
+    final adminLoginBox = await Hive.openBox(adminLoginBoxName);
+    await adminLoginBox.put(isAdminLoggedInKey, false);
   }
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:bloc/bloc.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_database.dart';
@@ -22,16 +20,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       RegisterUser event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      // Add the user to the Hive database
       await hiveDatabase.addUser(event.user);
-
-      // Set the newly registered user as the current user
       await hiveDatabase.setCurrentUser(event.user.id);
-
-      // Emit success state with the user details
+      await hiveDatabase.setUserLoginStatus(true);
       emit(AuthSuccess(event.user));
     } catch (e) {
-      // Emit failure state if something goes wrong
       emit(AuthFailure("Registration failed"));
     }
   }
@@ -48,7 +41,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
       if (user != null) {
-        await hiveDatabase.setCurrentUser(user.id); // current user
+        await hiveDatabase.setCurrentUser(user.id);
+        await hiveDatabase.setUserLoginStatus(true);
         emit(AuthSuccess(user));
       } else {
         emit(AuthFailure("Login failed"));
@@ -62,6 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       await hiveDatabase.logoutUser();
+      await hiveDatabase.setUserLoginStatus(false);
       emit(AuthInitial());
     } catch (e) {
       emit(AuthFailure("Logout failed"));
@@ -74,10 +69,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await hiveDatabase.getCurrentUser();
       if (user != null) {
-        print("User found: ${user.username}");
         emit(AuthSuccess(user));
       } else {
-        print("No user found");
         emit(AuthInitial());
       }
     } catch (e) {

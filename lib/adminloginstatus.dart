@@ -11,7 +11,7 @@ class AdminLoginStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          AdminBloc(hiveDatabase: AdminAuthBox())..add(CheckAuthStatus()),
+          AdminBloc(hiveDatabase: AdminAuthBox())..add(CheckAdminAuthStatus()),
       child: BlocListener<AdminBloc, AdminState>(
         listener: (context, state) async {
           if (state is AdminLoginSuccess) {

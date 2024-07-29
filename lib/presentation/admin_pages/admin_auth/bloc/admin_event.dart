@@ -10,6 +10,6 @@ class AdminLoginRequested extends AdminEvent {
   AdminLoginRequested({required this.email, required this.password});
 }
 
-class CheckAuthStatus extends AdminEvent {}
+class CheckAdminAuthStatus extends AdminEvent {}
 
 class AdminLogoutRequested extends AdminEvent {}
