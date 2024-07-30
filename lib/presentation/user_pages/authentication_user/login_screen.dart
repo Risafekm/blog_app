@@ -1,3 +1,6 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:blog_app/core/animation/delayed_slide.dart';
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/register_screen.dart';
@@ -9,6 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginUserScreen extends StatelessWidget {
+  ValueNotifier<bool> isVisibile = ValueNotifier<bool>(true);
+
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -55,6 +60,7 @@ class LoginUserScreen extends StatelessWidget {
       },
       child: SafeArea(
         child: Scaffold(
+          // backgroundColor: Colors.blue.shade50,
           body: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height,
@@ -67,41 +73,97 @@ class LoginUserScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 60),
-                    signInText(),
+                    DelayedAnimation(
+                        aniDuration: 900,
+                        aniOffsetX: 0.0,
+                        aniOffsetY: 1.0,
+                        delayedAnimation: 800,
+                        child: signInText()),
                     const SizedBox(height: 5),
-                    subText(),
+                    DelayedAnimation(
+                        aniDuration: 900,
+                        aniOffsetX: 0.0,
+                        aniOffsetY: 0.35,
+                        delayedAnimation: 1000,
+                        child: subText()),
                     const SizedBox(height: 100),
-                    CustomTextFieldWidget(
-                      text: 'Email',
-                      icon: Icons.email,
-                      controller: emailController,
-                      validator: _validateEmail,
+                    DelayedAnimation(
+                      aniDuration: 800,
+                      aniOffsetX: 0.0,
+                      aniOffsetY: 0.45,
+                      delayedAnimation: 900,
+                      child: CustomTextFieldWidget(
+                        text: 'Email',
+                        icon: Icons.email,
+                        controller: emailController,
+                        validator: _validateEmail,
+                        suffix: const SizedBox(),
+                        isObscured: false,
+                      ),
                     ),
                     const SizedBox(height: 30),
-                    CustomTextFieldWidget(
-                      text: 'Password',
-                      icon: Icons.password,
-                      controller: passwordController,
-                      validator: _validatePassword,
+                    DelayedAnimation(
+                      aniDuration: 700,
+                      aniOffsetX: 0.0,
+                      aniOffsetY: 0.45,
+                      delayedAnimation: 900,
+                      child: ListenableBuilder(
+                        listenable: isVisibile,
+                        builder: (context, child) {
+                          return CustomTextFieldWidget(
+                            text: 'Password',
+                            icon: Icons.password,
+                            controller: passwordController,
+                            validator: _validatePassword,
+                            suffix: GestureDetector(
+                              onTap: () {
+                                isVisibile.value = !isVisibile.value;
+                              },
+                              child: isVisibile.value
+                                  ? const Icon(
+                                      Icons.visibility_off,
+                                      color: Colors.blueGrey,
+                                    )
+                                  : const Icon(
+                                      Icons.visibility,
+                                      color: Colors.blue,
+                                    ),
+                            ),
+                            isObscured: isVisibile.value,
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: 60),
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        return ButtonLogin(
-                          text: 'Login',
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              BlocProvider.of<AuthBloc>(context).add(LoginUser(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              ));
-                            }
-                          },
-                        );
-                      },
+                    DelayedAnimation(
+                      aniDuration: 500,
+                      aniOffsetX: 0.0,
+                      aniOffsetY: 0.35,
+                      delayedAnimation: 900,
+                      child: BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          return ButtonLogin(
+                            text: 'Login',
+                            onPressed: () {
+                              if (_formKey.currentState?.validate() ?? false) {
+                                BlocProvider.of<AuthBloc>(context)
+                                    .add(LoginUser(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ));
+                              }
+                            },
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    dontHaveAccountText(context),
+                    DelayedAnimation(
+                        aniDuration: 500,
+                        aniOffsetX: 0.0,
+                        aniOffsetY: 0.35,
+                        delayedAnimation: 1000,
+                        child: dontHaveAccountText(context)),
                   ],
                 ),
               ),

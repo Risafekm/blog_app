@@ -8,12 +8,16 @@ class CustomTextFieldWidget extends StatelessWidget {
   IconData icon;
   TextEditingController controller;
   FormFieldValidator<String>? validator;
+  Widget suffix;
+  bool isObscured;
 
   CustomTextFieldWidget({
     super.key,
     required this.text,
     required this.icon,
     required this.controller,
+    required this.suffix,
+    required this.isObscured,
     this.validator,
   });
 
@@ -31,6 +35,7 @@ class CustomTextFieldWidget extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           validator: validator,
+          obscureText: isObscured,
           decoration: InputDecoration(
             constraints: const BoxConstraints(maxWidth: 400, maxHeight: 100),
             label: Padding(
@@ -44,6 +49,7 @@ class CustomTextFieldWidget extends StatelessWidget {
               ),
             ),
             prefixIcon: Icon(icon, color: Colors.black54),
+            suffixIcon: suffix,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(color: Colors.transparent),

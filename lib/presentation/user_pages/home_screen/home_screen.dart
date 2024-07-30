@@ -158,22 +158,23 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
-                                          post.content,
+                                          "User  Q  : ${post.content}",
                                           maxLines: 3,
                                           style: const TextStyle(
                                             fontSize: 15,
+                                            color: Colors.purple,
                                             fontWeight: FontWeight.bold,
                                             overflow: TextOverflow.fade,
                                           ),
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
-                                          "admin reply : ${post.response}",
+                                          "Admin R : ${post.response}",
                                           maxLines: 3,
                                           style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.purple,
+                                            color: Colors.indigo,
                                             overflow: TextOverflow.fade,
                                           ),
                                         ),

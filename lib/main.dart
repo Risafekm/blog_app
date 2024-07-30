@@ -7,6 +7,7 @@ import 'package:blog_app/hive_database/hive_database.dart';
 import 'package:blog_app/presentation/admin_pages/admin_auth/bloc/admin_bloc.dart';
 import 'package:blog_app/presentation/admin_pages/admin_home/admin_homescreen.dart';
 import 'package:blog_app/presentation/login.dart';
+import 'package:blog_app/presentation/splash_screen/splash_screen.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
 import 'package:blog_app/presentation/user_pages/home_screen/home_screen.dart';
 import 'package:blog_app/presentation/user_pages/home_screen/bloc_post/post_bloc.dart';
@@ -47,9 +48,9 @@ class MyApp extends StatelessWidget {
           create: (context) => AdminBloc(hiveDatabase: AdminAuthBox()),
         )
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: UserLoginStatus(),
+        home: SplashScreen(),
       ),
     );
   }

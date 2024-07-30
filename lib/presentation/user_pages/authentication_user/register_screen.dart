@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:blog_app/core/animation/delayed_slide.dart';
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/bloc/auth_bloc.dart';
@@ -51,41 +52,130 @@ class RegistrationUserScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 30),
-                  signUpText(),
+                  DelayedAnimation(
+                      aniDuration: 900,
+                      aniOffsetX: 0.0,
+                      aniOffsetY: 1.0,
+                      delayedAnimation: 800,
+                      child: signUpText()),
                   const SizedBox(height: 5),
-                  subText(),
-                  const SizedBox(height: 140),
-                  CustomTextFieldWidget(
-                    text: 'Username',
-                    icon: Icons.person,
-                    controller: usernameController,
+                  DelayedAnimation(
+                      aniDuration: 900,
+                      aniOffsetX: 0.0,
+                      aniOffsetY: 0.35,
+                      delayedAnimation: 1000,
+                      child: subText()),
+                  const SizedBox(height: 100),
+                  DelayedAnimation(
+                    aniDuration: 800,
+                    aniOffsetX: 0.0,
+                    aniOffsetY: 0.45,
+                    delayedAnimation: 900,
+                    child: CustomTextFieldWidget(
+                      text: 'Username',
+                      icon: Icons.person,
+                      controller: usernameController,
+                      isObscured: false,
+                      suffix: const SizedBox(),
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  CustomTextFieldWidget(
-                    text: 'Email',
-                    icon: Icons.email,
-                    controller: emailController,
+                  DelayedAnimation(
+                    aniDuration: 800,
+                    aniOffsetX: 0.0,
+                    aniOffsetY: 0.45,
+                    delayedAnimation: 900,
+                    child: CustomTextFieldWidget(
+                      text: 'Email',
+                      icon: Icons.email,
+                      controller: emailController,
+                      isObscured: false,
+                      suffix: const SizedBox(),
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  CustomTextFieldWidget(
-                    text: 'Password',
-                    icon: Icons.password,
-                    controller: passwordController,
+                  DelayedAnimation(
+                    aniDuration: 700,
+                    aniOffsetX: 0.0,
+                    aniOffsetY: 0.45,
+                    delayedAnimation: 900,
+                    child: CustomTextFieldWidget(
+                      text: 'Password',
+                      icon: Icons.password,
+                      controller: passwordController,
+                      isObscured: false,
+                      suffix: const SizedBox(),
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  CustomTextFieldWidget(
-                    text: 'Confirm Password',
-                    icon: Icons.password,
-                    controller: confirmPasswordController,
+                  DelayedAnimation(
+                    aniDuration: 700,
+                    aniOffsetX: 0.0,
+                    aniOffsetY: 0.45,
+                    delayedAnimation: 900,
+                    child: CustomTextFieldWidget(
+                      text: 'Confirm Password',
+                      icon: Icons.password,
+                      controller: confirmPasswordController,
+                      isObscured: false,
+                      suffix: const SizedBox(),
+                    ),
                   ),
                   const SizedBox(height: 60),
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      return ButtonLogin(
-                        text: 'Register',
-                        onPressed: () {
-                          if (passwordController.text ==
-                              confirmPasswordController.text) {
+                  DelayedAnimation(
+                    aniDuration: 500,
+                    aniOffsetX: 0.0,
+                    aniOffsetY: 0.35,
+                    delayedAnimation: 900,
+                    child: BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        return ButtonLogin(
+                          text: 'Register',
+                          onPressed: () {
+                            if (usernameController.text.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content:
+                                    const Text("Please enter your username"),
+                                backgroundColor: errorcolor,
+                              ));
+                              return;
+                            }
+                            if (emailController.text.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text("Please enter your email"),
+                                backgroundColor: errorcolor,
+                              ));
+                              return;
+                            }
+                            if (passwordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content:
+                                    const Text("Please enter your password"),
+                                backgroundColor: errorcolor,
+                              ));
+                              return;
+                            }
+                            if (confirmPasswordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content:
+                                    const Text("Please confirm your password"),
+                                backgroundColor: errorcolor,
+                              ));
+                              return;
+                            }
+                            if (passwordController.text !=
+                                confirmPasswordController.text) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text("Passwords do not match"),
+                                backgroundColor: errorcolor,
+                              ));
+                              return;
+                            }
                             final user = UserModel(
                               id: DateTime.now()
                                   .millisecondsSinceEpoch
@@ -97,18 +187,18 @@ class RegistrationUserScreen extends StatelessWidget {
                             );
                             BlocProvider.of<AuthBloc>(context)
                                 .add(RegisterUser(user));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: const Text("Passwords do not match"),
-                              backgroundColor: errorcolor,
-                            ));
-                          }
-                        },
-                      );
-                    },
+                          },
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(height: 8),
-                  alreadyHaveAccountText(context),
+                  DelayedAnimation(
+                      aniDuration: 500,
+                      aniOffsetX: 0.0,
+                      aniOffsetY: 0.35,
+                      delayedAnimation: 1000,
+                      child: alreadyHaveAccountText(context)),
                 ],
               ),
             ),

@@ -57,23 +57,6 @@ class AdminHomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-
-              // //searchbar
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 10.0, right: 8.0, top: 5, bottom: 5),
-              //   child: TextField(
-              //     decoration: InputDecoration(
-              //       hintText: 'Search...',
-              //       prefixIcon: const Icon(Icons.search),
-              //       border: OutlineInputBorder(
-              //         borderSide: const BorderSide(color: Colors.black),
-              //         borderRadius: BorderRadius.circular(15),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
               const Padding(
                 padding: EdgeInsets.only(left: 12),
                 child: Text(
@@ -140,7 +123,7 @@ class AdminHomeScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
-                                          "User Q : ${post.content}",
+                                          "User Q   : ${post.content}",
                                           maxLines: 3,
                                           style: const TextStyle(
                                             fontSize: 15,
@@ -151,10 +134,11 @@ class AdminHomeScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
-                                          post.response,
+                                          "Admin R : ${post.response}",
                                           maxLines: 3,
                                           style: const TextStyle(
                                             fontSize: 15,
+                                            color: Colors.indigo,
                                             fontWeight: FontWeight.bold,
                                             overflow: TextOverflow.fade,
                                           ),
@@ -211,18 +195,18 @@ class AdminHomeScreen extends StatelessWidget {
                 'Respond to Post',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 50),
               TextField(
                 controller: _responseController,
                 decoration: InputDecoration(
-                  hintText: 'Enter your response...',
+                  hintText: 'Answer please...',
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.black),
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               ButtonLogin(
                   text: "Reply Send",
                   onPressed: () {
