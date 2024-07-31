@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     onChanged: (query) {
-                      print("Search Query: $query"); // Debug statement
+                      print("Search Query: $query");
                       context.read<PostBloc>().add(PostSearch(query));
                     },
                     decoration: InputDecoration(
@@ -105,7 +105,7 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: BlocBuilder<PostBloc, PostState>(
                 builder: (context, state) {
-                  // Debug print to confirm BlocBuilder rebuild
+                  // print to confirm BlocBuilder rebuild
                   print("Current State: ${state.runtimeType}");
 
                   if (state is PostInitial) {
