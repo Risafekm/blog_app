@@ -34,7 +34,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           .toList();
       print('Search Results Length: ${posts.length}'); // Debug statement
       print('Search Results: $posts'); // Debug statement
-      emit(PostSearchResults(posts));
+      emit(PostSearchResults(results: posts));
     } catch (e) {
       emit(PostFailure(e.toString()));
     }

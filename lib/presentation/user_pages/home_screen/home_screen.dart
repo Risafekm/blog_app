@@ -78,22 +78,26 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Search Bar
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (query) {
-                  print("Search Query: $query"); // Debug statement
-                  context.read<PostBloc>().add(PostSearch(query));
-                },
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(15),
+            BlocBuilder<PostBloc, PostState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    onChanged: (query) {
+                      print("Search Query: $query"); // Debug statement
+                      context.read<PostBloc>().add(PostSearch(query));
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
             const SizedBox(height: 20),
 

@@ -57,11 +57,10 @@ class AdminHomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
+              const Center(
                 child: Text(
                   'Blogs',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(height: 20),

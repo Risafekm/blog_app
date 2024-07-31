@@ -20,5 +20,5 @@ final class PostFailure extends PostState {
 final class PostSearchResults extends PostState {
   final List<PostModel> results;
 
-  PostSearchResults(this.results);
+  PostSearchResults({required this.results});
 }
