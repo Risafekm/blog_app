@@ -47,11 +47,10 @@ class HistoryScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.only(left: 15),
+              const Center(
                 child: Text(
                   'Blogs',
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(height: 20),
