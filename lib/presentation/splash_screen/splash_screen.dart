@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
                 child: Text(
       'Welcome',
       style: TextStyle(
-          fontSize: 32, color: Colors.purple, fontWeight: FontWeight.bold),
+          fontSize: 32, color: Colors.blue, fontWeight: FontWeight.bold),
     ))
             .animate()
             .scale(

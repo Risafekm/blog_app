@@ -88,7 +88,7 @@ class AdminHomeScreen extends StatelessWidget {
                             height: 150,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
-                              color: Colors.blue.shade200,
+                              color: colorList[index % colorList.length],
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(

@@ -44,9 +44,16 @@ class RegistrationUserScreen extends StatelessWidget {
         child: Scaffold(
           body: SingleChildScrollView(
             child: Container(
-              height: double.maxFinite,
-              width: double.maxFinite,
-              decoration: const BoxDecoration(),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("3.jpg"),
+                  fit: BoxFit.cover,
+                  colorFilter:
+                      ColorFilter.mode(Colors.black38, BlendMode.lighten),
+                ),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,6 +259,7 @@ class RegistrationUserScreen extends StatelessWidget {
         style: GoogleFonts.roboto(
           fontSize: 36,
           fontWeight: FontWeight.w600,
+          color: Colors.blue,
         ),
       ),
     );

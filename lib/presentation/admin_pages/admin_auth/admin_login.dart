@@ -16,6 +16,24 @@ class LoginAdminScreen extends StatelessWidget {
   final passwordController = TextEditingController();
   ValueNotifier<bool> isVisibile = ValueNotifier<bool>(true);
 
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter an email';
+    }
+    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a password';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,6 +42,14 @@ class LoginAdminScreen extends StatelessWidget {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("3.jpg"),
+                fit: BoxFit.cover,
+                colorFilter:
+                    ColorFilter.mode(Colors.black38, BlendMode.lighten),
+              ),
+            ),
             child: Form(
               key: _formKey,
               child: Column(
@@ -148,11 +174,13 @@ class LoginAdminScreen extends StatelessWidget {
   }
 
   Center subText() {
-    return const Center(
+    return Center(
       child: Text(
         'Welcome Back',
         style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w300, color: Colors.black54),
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: Colors.blue.shade600),
       ),
     );
   }
@@ -164,26 +192,9 @@ class LoginAdminScreen extends StatelessWidget {
         style: GoogleFonts.roboto(
           fontSize: 36,
           fontWeight: FontWeight.w600,
+          color: Colors.blue,
         ),
       ),
     );
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter an email';
-    }
-    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-    if (!regex.hasMatch(value)) {
-      return 'Please enter a valid email';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a password';
-    }
-    return null;
   }
 }
