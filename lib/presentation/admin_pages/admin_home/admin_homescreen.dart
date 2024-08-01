@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, avoid_print
 
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_admin.dart';
@@ -148,15 +148,35 @@ class AdminHomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                   // Checkbox for approval
-                                  Checkbox(
-                                    value: post.isPublished,
-                                    onChanged: (bool? newValue) {
-                                      if (newValue != null) {
-                                        post.isPublished = newValue;
-                                        post.save();
-                                        print("${post.isPublished}");
-                                      }
-                                    },
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            "Publish",
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Checkbox(
+                                        value: post.isPublished,
+                                        onChanged: (bool? newValue) {
+                                          if (newValue != null) {
+                                            post.isPublished = newValue;
+                                            post.save();
+                                            print("${post.isPublished}");
+                                          }
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   // Response button
                                   Column(
