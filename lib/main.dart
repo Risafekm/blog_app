@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, avoid_print
 
 import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
@@ -78,7 +78,7 @@ class UserLoginStatus extends StatelessWidget {
             return BlocProvider(
               create: (context) => AdminBloc(hiveDatabase: AdminAuthBox())
                 ..add(CheckAdminAuthStatus()),
-              child: const AdminHomeScreen(),
+              child: AdminHomeScreen(),
             );
           } else {
             return LoginScreen();

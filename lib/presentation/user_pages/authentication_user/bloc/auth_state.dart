@@ -22,3 +22,5 @@ class AuthFailure extends AuthState {
 
   AuthFailure(this.error);
 }
+
+class UserBanned extends AuthState {}

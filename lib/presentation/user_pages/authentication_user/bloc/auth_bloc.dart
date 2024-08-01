@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_database.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
 part 'auth_event.dart';
@@ -32,23 +33,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLoginUser(LoginUser event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      var users = await hiveDatabase.getAllUsers();
-      UserModel? user;
-      for (var u in users) {
-        if (u.email == event.email && u.password == event.password) {
-          user = u;
-          break;
-        }
-      }
-      if (user != null) {
-        await hiveDatabase.setCurrentUser(user.id);
-        await hiveDatabase.setUserLoginStatus(true);
-        emit(AuthSuccess(user));
+      var box = await Hive.openBox<UserModel>('userBox');
+      final List<UserModel> userList = box.values.toList();
+      final user = userList.firstWhere(
+        (user) => user.email == event.email && user.password == event.password,
+        orElse: () => UserModel(
+          email: '',
+          id: '',
+          isBanned: false,
+          password: '',
+          username: '',
+        ),
+      );
+
+      if (user.id.isEmpty) {
+        emit(AuthFailure('Invalid email or password.'));
+      } else if (user.isBanned) {
+        emit(UserBanned());
       } else {
-        emit(AuthFailure("Login failed"));
+        emit(AuthSuccess(user));
       }
     } catch (e) {
-      emit(AuthFailure("Login failed"));
+      emit(AuthFailure('An error occurred during login.'));
     }
   }
 

@@ -66,4 +66,24 @@ class HiveDatabase {
     var box = await Hive.openBox(userLoginBoxName);
     return box.get(isUserLoggedInKey, defaultValue: false);
   }
+
+  // Ban a user
+  Future<void> banUser(String id) async {
+    var box = await Hive.openBox<UserModel>(userBoxName);
+    UserModel? user = box.get(id);
+    if (user != null) {
+      user.isBanned = true;
+      await user.save();
+    }
+  }
+
+  // Unban a user
+  Future<void> unbanUser(String id) async {
+    var box = await Hive.openBox<UserModel>(userBoxName);
+    UserModel? user = box.get(id);
+    if (user != null) {
+      user.isBanned = false;
+      await user.save();
+    }
+  }
 }

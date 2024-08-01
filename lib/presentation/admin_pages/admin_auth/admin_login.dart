@@ -137,8 +137,7 @@ class LoginAdminScreen extends StatelessWidget {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AdminHomeScreen()));
+                                  builder: (context) => AdminHomeScreen()));
                         } else if (state is AdminLoginFailure) {
                           // Show error message
                           ScaffoldMessenger.of(context).showSnackBar(

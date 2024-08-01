@@ -1,7 +1,9 @@
-// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'package:blog_app/core/const.dart';
+import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/hive_database/hive_admin.dart';
+import 'package:blog_app/hive_database/hive_database.dart';
+import 'package:blog_app/core/const.dart';
 import 'package:blog_app/core/models/postmodel/post_model.dart';
 import 'package:blog_app/presentation/admin_pages/admin_auth/bloc/admin_bloc.dart';
 import 'package:blog_app/presentation/admin_pages/admin_profile/admin_profile.dart';
@@ -64,7 +66,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // listview blog
+              // Listview blog
               Container(
                 constraints: const BoxConstraints(
                     maxHeight: double.maxFinite, maxWidth: double.maxFinite),
@@ -157,11 +159,36 @@ class AdminHomeScreen extends StatelessWidget {
                                     },
                                   ),
                                   // Response button
-                                  IconButton(
-                                    icon: const Icon(Icons.reply),
-                                    onPressed: () {
-                                      _showResponseBottomSheet(context, post);
-                                    },
+                                  Column(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.reply),
+                                        onPressed: () {
+                                          _showResponseBottomSheet(
+                                              context, post);
+                                        },
+                                      ),
+                                      const SizedBox(height: 50),
+                                      // Ban/unban user
+                                      FutureBuilder<UserModel?>(
+                                        future: HiveDatabase()
+                                            .getUser(post.authorId),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const CircularProgressIndicator();
+                                          }
+                                          if (snapshot.hasError ||
+                                              !snapshot.hasData) {
+                                            return const Center(
+                                              child: Text('Error loading user'),
+                                            );
+                                          }
+                                          final user = snapshot.data!;
+                                          return BanUserWidget(user: user);
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -221,6 +248,55 @@ class AdminHomeScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class BanUserWidget extends StatelessWidget {
+  final UserModel user;
+
+  const BanUserWidget({Key? key, required this.user}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ValueNotifier<bool> _isBannedNotifier = ValueNotifier(user.isBanned);
+
+    return Row(
+      children: [
+        Container(
+          height: 20,
+          width: 50,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Center(
+            child: Text(
+              "Ban",
+              style: TextStyle(fontSize: 13),
+            ),
+          ),
+        ),
+        const SizedBox(width: 5),
+        ValueListenableBuilder<bool>(
+          valueListenable: _isBannedNotifier,
+          builder: (context, isBanned, _) {
+            return Checkbox(
+              onChanged: (bool? value) async {
+                if (value != null) {
+                  if (value) {
+                    await HiveDatabase().banUser(user.id);
+                  } else {
+                    await HiveDatabase().unbanUser(user.id);
+                  }
+                  _isBannedNotifier.value = value;
+                }
+              },
+              value: isBanned,
+            );
+          },
+        ),
+      ],
     );
   }
 }

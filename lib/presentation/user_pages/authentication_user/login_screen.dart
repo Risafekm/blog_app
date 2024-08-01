@@ -56,10 +56,16 @@ class LoginUserScreen extends StatelessWidget {
         } else if (state is AuthFailure) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text("Failure: ${state.error}")));
+        } else if (state is UserBanned) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text("Your account has been banned."),
+              backgroundColor: errorcolor,
+            ),
+          );
         }
       },
       child: Scaffold(
-        // backgroundColor: Colors.blue.shade50,
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
