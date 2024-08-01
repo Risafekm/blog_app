@@ -57,16 +57,20 @@ class HistoryScreen extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: Hive.box<PostModel>('posts').listenable(),
                 builder: (context, Box<PostModel> box, _) {
-                  if (box.values.isEmpty) {
+                  final posts = box.values
+                      .where((post) => post.authorId == user.id)
+                      .toList();
+
+                  if (posts.isEmpty) {
                     return const Center(
                       child: Text('No posts available'),
                     );
                   }
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: box.values.length,
+                    itemCount: posts.length,
                     itemBuilder: (context, index) {
-                      final post = box.getAt(index) as PostModel;
+                      final post = posts[index];
                       return Padding(
                         padding: const EdgeInsets.only(
                             left: 15.0, top: 8, bottom: 8, right: 10),
@@ -109,7 +113,7 @@ class HistoryScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 10),
                                       Text(
-                                        "User  Q  : ${post.content}",
+                                        "Content: ${post.content}",
                                         maxLines: 3,
                                         style: const TextStyle(
                                           fontSize: 15,
@@ -121,7 +125,7 @@ class HistoryScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "approval : ${post.isPublished}",
+                                  "Approved: ${post.isPublished}",
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,

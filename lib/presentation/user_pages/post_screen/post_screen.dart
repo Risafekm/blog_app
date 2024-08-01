@@ -1,5 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/core/models/postmodel/post_model.dart';
+import 'package:blog_app/core/models/usermodel/user_model.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/widgets/button_login.dart';
 import 'package:blog_app/presentation/user_pages/authentication_user/widgets/custom_textfield_widget.dart';
 import 'package:blog_app/presentation/user_pages/home_screen/bloc_post/post_bloc.dart';
@@ -8,7 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostScreen extends StatelessWidget {
-  const PostScreen({super.key});
+  UserModel user;
+  PostScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +86,11 @@ class PostScreen extends StatelessWidget {
                       id: '',
                       title: titleController.text,
                       content: contentController.text,
-                      authorId: '',
+                      authorId: user.id,
                       isPublished: false, // or set it as needed
                       response: '', // or set it as needed
                     );
+                    print(user.id);
                     context.read<PostBloc>().add(PostAdding(newPost));
                   },
                   text: 'Post',

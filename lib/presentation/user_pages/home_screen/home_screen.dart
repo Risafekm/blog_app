@@ -114,13 +114,14 @@ class HomeScreen extends StatelessWidget {
                     final posts = state.results;
 
                     if (posts.isEmpty) {
-                      return const Center(child: Text('No posts found'));
+                      return const Center(child: Text('No  posts found'));
                     }
 
                     return ListView.builder(
                       itemCount: posts.length,
                       itemBuilder: (context, index) {
                         final post = posts[index];
+                        final number = index + 1;
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -139,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                                   CircleAvatar(
                                     radius: 30,
                                     child: Text(
-                                      post.id,
+                                      number.toString(),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -203,8 +204,10 @@ class HomeScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const PostScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PostScreen(user: user)));
           },
           child: const Icon(
             Icons.add,
