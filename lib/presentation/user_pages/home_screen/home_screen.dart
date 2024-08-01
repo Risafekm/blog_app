@@ -114,8 +114,7 @@ class HomeScreen extends StatelessWidget {
                     final posts = state.results;
 
                     if (posts.isEmpty) {
-                      return const Center(
-                          child: Text('No matching posts found'));
+                      return const Center(child: Text('No posts found'));
                     }
 
                     return ListView.builder(

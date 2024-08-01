@@ -51,7 +51,7 @@ class RegistrationUserScreen extends StatelessWidget {
                   image: AssetImage("3.jpg"),
                   fit: BoxFit.cover,
                   colorFilter:
-                      ColorFilter.mode(Colors.black38, BlendMode.lighten),
+                      ColorFilter.mode(Colors.white30, BlendMode.softLight),
                 ),
               ),
               child: Column(

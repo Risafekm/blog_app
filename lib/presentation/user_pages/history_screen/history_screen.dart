@@ -109,7 +109,7 @@ class HistoryScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 10),
                                       Text(
-                                        post.content,
+                                        "User  Q  : ${post.content}",
                                         maxLines: 3,
                                         style: const TextStyle(
                                           fontSize: 15,
