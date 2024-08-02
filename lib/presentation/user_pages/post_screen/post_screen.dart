@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, avoid_print
 
 import 'package:blog_app/core/const.dart';
 import 'package:blog_app/core/models/postmodel/post_model.dart';

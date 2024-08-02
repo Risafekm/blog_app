@@ -24,6 +24,8 @@ void main() async {
     await Hive.openBox<PostModel>('posts');
     await Hive.openBox('userLoginBox');
     await Hive.openBox('adminLoginBox');
+    await Hive.openBox<UserModel>('userBox');
+
     await AdminAuthBox.init();
     runApp(const MyApp());
   } catch (e) {
@@ -78,7 +80,7 @@ class UserLoginStatus extends StatelessWidget {
             return BlocProvider(
               create: (context) => AdminBloc(hiveDatabase: AdminAuthBox())
                 ..add(CheckAdminAuthStatus()),
-              child: AdminHomeScreen(),
+              child: const AdminHomeScreen(),
             );
           } else {
             return LoginScreen();

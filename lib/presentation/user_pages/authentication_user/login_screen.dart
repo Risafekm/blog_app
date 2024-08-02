@@ -98,7 +98,7 @@ class LoginUserScreen extends StatelessWidget {
                       aniOffsetY: 0.35,
                       delayedAnimation: 1000,
                       child: subText()),
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 140),
                   DelayedAnimation(
                     aniDuration: 800,
                     aniOffsetX: 0.0,

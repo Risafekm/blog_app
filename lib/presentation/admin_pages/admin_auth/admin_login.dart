@@ -65,12 +65,13 @@ class LoginAdminScreen extends StatelessWidget {
                       child: signInText()),
                   const SizedBox(height: 5),
                   DelayedAnimation(
-                      aniDuration: 900,
-                      aniOffsetX: 0.0,
-                      aniOffsetY: 0.35,
-                      delayedAnimation: 1000,
-                      child: subText()),
-                  const SizedBox(height: 100),
+                    aniDuration: 900,
+                    aniOffsetX: 0.0,
+                    aniOffsetY: 0.35,
+                    delayedAnimation: 1000,
+                    child: subText(),
+                  ),
+                  const SizedBox(height: 150),
                   DelayedAnimation(
                     aniDuration: 800,
                     aniOffsetX: 0.0,
@@ -137,7 +138,8 @@ class LoginAdminScreen extends StatelessWidget {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AdminHomeScreen()));
+                                  builder: (context) =>
+                                      const AdminHomeScreen()));
                         } else if (state is AdminLoginFailure) {
                           // Show error message
                           ScaffoldMessenger.of(context).showSnackBar(

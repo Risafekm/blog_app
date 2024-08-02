@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:bloc/bloc.dart';
 import 'package:blog_app/hive_database/hive_admin.dart';
 import 'package:meta/meta.dart';

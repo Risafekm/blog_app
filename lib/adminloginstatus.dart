@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'hive_database/hive_admin.dart';
 
 class AdminLoginStatus extends StatelessWidget {
+  const AdminLoginStatus({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -17,7 +19,7 @@ class AdminLoginStatus extends StatelessWidget {
           if (state is AdminLoginSuccess) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => AdminHomeScreen()),
+              MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
             );
           } else if (state is AdminInitial || state is AdminLoginFailure) {
             Navigator.pushReplacement(
